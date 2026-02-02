@@ -67,25 +67,4 @@ class Army
     def find_unit_by_id(unit_id)
         @units.find { |u| u.id == unit_id } || raise(UnitNotFoundError, "Unit ##{unit_id} not found in army")
     end
-
-    def attack(enemy)
-        my_points = total_strength
-        enemy_points = enemy.total_strength
-
-        if my_points > enemy_points
-            add_gold(100)
-            enemy.remove_strongest(2)
-        elsif enemy_points > my_points
-            enemy.add_gold(100)
-            remove_strongest(2)
-        else
-            remove_strongest(1)
-            enemy.remove_strongest(1)
-        end
-
-        # Record history
-        record_battle(enemy)
-        enemy.record_battle(self)
-    end
-    
 end

@@ -1,5 +1,6 @@
 require_relative 'lib/unit'
 require_relative 'lib/army'
+require_relative 'lib/battle'
 
 puts "=== Simulation ==="
 puts
@@ -52,19 +53,20 @@ puts "--- Battle: Army ##{army1.id} vs Army ##{army2.id} ---"
 puts "Army ##{army1.id} strength: #{army1.total_strength}"
 puts "Army ##{army2.id} strength: #{army2.total_strength}"
 puts
-if army1.total_strength > army2.total_strength
-  puts "Army ##{army1.id} is stronger!"
-elsif army2.total_strength > army1.total_strength
-  puts "Army ##{army2.id} is stronger!"
-else
-  puts "It's a tie!"
-end
-puts
+
 puts "Before battle:"
 puts "  Army ##{army1.id}: #{army1.units.size} units, #{army1.coins} gold"
 puts "  Army ##{army2.id}: #{army2.units.size} units, #{army2.coins} gold"
 
-army1.attack(army2)
+battle = Battle.new(army1, army2)
+battle.fight
+
+puts
+if battle.tie?
+    puts "It's a tie! Both armies lost 1 unit."
+else
+    puts "Battle winner: Army ##{battle.winner.id}"
+end
 
 puts
 puts "After battle:"
